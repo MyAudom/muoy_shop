@@ -1,6 +1,6 @@
 <?php
 $servername = "db.pxxl.pro:37962";
-$username = "user_9e4b4ee8";
+$username = "db_2902ca38";
 $password = "1b1fad3b3f04e880b326487a6c1c2874";
 $dbname = "db_59a146df";
 
@@ -13,4 +13,5 @@ if ($conn->connect_error) {
 }
 
 ?>
+
 
