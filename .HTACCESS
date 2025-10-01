@@ -1,0 +1,26 @@
+RewriteEngine On
+
+# Prevent direct access to .php files
+<FilesMatch "\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Block requests that explicitly include .php in the URL
+RewriteCond %{THE_REQUEST} \.php [NC]
+RewriteRule ^ - [L]
+
+# If the request is for an existing file, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# If the request is for an existing directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirect requests to .php files if they exist (disabled since PHP is blocked above)
+# RewriteCond %{REQUEST_FILENAME}.php -f
+# RewriteRule ^(.*)$ $1.php [L]
+
+# Custom 404 error page
+ErrorDocument 404 https://muoyshop.pxxl.click/404.html
