@@ -1,8 +1,8 @@
 <?php
 $servername = "db.pxxl.pro:37962";
-$username = "db_2902ca38";
+$username = "user_9e4b4ee8";
 $password = "1b1fad3b3f04e880b326487a6c1c2874";
-$dbname = "db_59a146df";
+$dbname = "db_2902ca38";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,5 +13,6 @@ if ($conn->connect_error) {
 }
 
 ?>
+
 
 
