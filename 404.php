@@ -46,7 +46,7 @@
             <h1 class="error-title">404</h1>
             <p class="error-message">អូ ទំព័រដែលអ្នកកំពុងស្វែងរកមិនអាចរកឃើញទេ។</p>
             <p class="error-message">Oops! The page you're looking for can't be found.</p>
-            <a href="index.html" class="btn btn-primary btn-home">ត្រឡប់ទៅទំព័រដើម / Back to Home</a>
+            <a href="index.php" class="btn btn-primary btn-home">ត្រឡប់ទៅទំព័រដើម / Back to Home</a>
         </div>
     </section>
     <!-- End of 404 Error Section -->
@@ -135,4 +135,5 @@
     <!-- Core theme JS-->
     <script src="js/styles.js"></script>
 </body>
+
 </html>
