@@ -53,7 +53,7 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
                 Products
             </a>
 
-            <a href="storks.php" class="nav-item" style="margin-top: auto;">
+            <a href="users.php" class="nav-item" style="margin-top: auto;">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8zm8 8v-2a4 4 0 00-3-3.87"/>
                 </svg>
@@ -214,3 +214,4 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
 </body>
 
 </html>
+
