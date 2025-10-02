@@ -96,13 +96,13 @@ $categories_query = $conn->query("SELECT * FROM categories");
         </div>
     </nav>
     <!-- Header-->
-    <header class="py-5" style="background: url('img/bg.jpg') center center/cover no-repeat;">
+    <header class=" py-5" style="background-color:rgb(255, 168, 37);">
         <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white" style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 1rem;">
+            <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Shoping in my webside</h1>
-                <!-- items_loader --> 
+                <!-- items_loader -->
                 <div class="items">
-                    <div class="items_loader" style="color: #fff;">
+                    <div class="display-4 items_loader" style="color: #000;">
                         <p>Artwork Have </p>
                         <div class="words">
                             <span class="word">Necklace</span>
@@ -114,7 +114,7 @@ $categories_query = $conn->query("SELECT * FROM categories");
                             <span class="word">Necklace</span>
                         </div>
                     </div>
-                </div>  
+                </div> 
             </div>
         </div>
     </header>
