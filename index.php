@@ -147,12 +147,11 @@ $categories_query = $conn->query("SELECT * FROM categories");
                         <!-- Product card -->
                         <div class="col mb-5">
                             <div class="card h-100" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#<?php echo $modal_id; ?>">
-                                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">New</div>
                                 <img class="card-img-top" src="<?php echo $product['image']; ?>" />
                                 <div class="card-body p-4">
                                     <div class="product-card">
                                         <h5 class="fw-bolder"><?php echo $product['name']; ?></h5>
-                                        $<?php echo number_format($product['price'], 2); ?>
+                                        Code : <?php echo htmlspecialchars($product['code_item']); ?>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +183,7 @@ $categories_query = $conn->query("SELECT * FROM categories");
                                 <div class="col-md-6">
                                     <h5><?php echo $product['name']; ?></h5>
                                     <p><?php echo $product['description']; ?></p>
-                                    <h5>$<?php echo number_format($product['price'], 2); ?></h5>
+                                    <h5>Code : <?php echo htmlspecialchars($product['code_item']); ?></h5>
                                     <div class="text-center">
                                         <div class="social-links">
                                             <a href="https://www.facebook.com/muoyshop" target="_blank">
@@ -283,45 +282,45 @@ $categories_query = $conn->query("SELECT * FROM categories");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/stylesjs.js"></script>
-     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const navbar = document.querySelector('.navbar-nav.category-scroll');
-    if (navbar && window.innerWidth >= 992) {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+    <script src="js/stylesjs.js"></script>  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar-nav.category-scroll');
+            if (navbar && window.innerWidth >= 992) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
 
-        navbar.addEventListener('mousedown', (e) => {
-            isDown = true;
-            navbar.style.cursor = 'grabbing';
-            startX = e.pageX - navbar.offsetLeft;
-            scrollLeft = navbar.scrollLeft;
+                navbar.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    navbar.style.cursor = 'grabbing';
+                    startX = e.pageX - navbar.offsetLeft;
+                    scrollLeft = navbar.scrollLeft;
+                });
+
+                navbar.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    navbar.style.cursor = 'grab';
+                });
+
+                navbar.addEventListener('mouseup', () => {
+                    isDown = false;
+                    navbar.style.cursor = 'grab';
+                });
+
+                navbar.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - navbar.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    navbar.scrollLeft = scrollLeft - walk;
+                });
+
+                navbar.style.cursor = 'grab';
+            }
         });
 
-        navbar.addEventListener('mouseleave', () => {
-            isDown = false;
-            navbar.style.cursor = 'grab';
-        });
-
-        navbar.addEventListener('mouseup', () => {
-            isDown = false;
-            navbar.style.cursor = 'grab';
-        });
-
-        navbar.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - navbar.offsetLeft;
-            const walk = (x - startX) * 2;
-            navbar.scrollLeft = scrollLeft - walk;
-        });
-
-        navbar.style.cursor = 'grab';
-    }
-});
-
-</script>
+    </script>
 </body>
 </html>
 <?php
