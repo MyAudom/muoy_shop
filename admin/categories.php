@@ -12,40 +12,53 @@ $error_msg = '';
 
 // Create category
 if (isset($_POST['add_category'])) {
-    $name = $conn->real_escape_string($_POST['name']);
-    $sql = "INSERT INTO categories (name) VALUES ('$name')";
-    if ($conn->query($sql)) {
+    $name = $_POST['name'];
+    $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
+    $stmt->bind_param("s", $name);
+    if ($stmt->execute()) {
         $success_msg = "Category added successfully!";
     } else {
-        $error_msg = "Error adding category.";
+        $error_msg = "Error adding category: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Update category
 if (isset($_POST['update_category'])) {
     $id = (int)$_POST['id'];
-    $name = $conn->real_escape_string($_POST['name']);
-    $sql = "UPDATE categories SET name='$name' WHERE id=$id";
-    if ($conn->query($sql)) {
+    $name = $_POST['name'];
+    $stmt = $conn->prepare("UPDATE categories SET name=? WHERE id=?");
+    $stmt->bind_param("si", $name, $id);
+    if ($stmt->execute()) {
         $success_msg = "Category updated successfully!";
     } else {
-        $error_msg = "Error updating category.";
+        $error_msg = "Error updating category: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Delete category
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
-    $sql = "DELETE FROM categories WHERE id=$id";
-    if ($conn->query($sql)) {
-        $success_msg = "Category deleted successfully!";
+    // First, delete related products to avoid foreign key constraint issues
+    $stmt_products = $conn->prepare("DELETE FROM products WHERE category_id=?");
+    $stmt_products->bind_param("i", $id);
+    $stmt_products->execute();
+    $stmt_products->close();
+
+    // Then, delete the category
+    $stmt = $conn->prepare("DELETE FROM categories WHERE id=?");
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        $success_msg = "Category and related products deleted successfully!";
     } else {
-        $error_msg = "Error deleting category.";
+        $error_msg = "Error deleting category: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Read categories
-$categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM categories c LEFT JOIN products p ON c.id = p.category_id GROUP BY c.id");
+$result = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM categories c LEFT JOIN products p ON c.id = p.category_id GROUP BY c.id");
 ?>
 
 <!DOCTYPE html>
@@ -154,7 +167,7 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
                 </div>
             </div>
 
-            <?php if ($categories->num_rows > 0): ?>
+            <?php if ($result->num_rows > 0): ?>
             <div class="table-container">
                 <table class="table" id="categoryTable">
                     <thead>
@@ -166,7 +179,7 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($row = $categories->fetch_assoc()): ?>
+                        <?php while($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><strong>#<?php echo $row['id']; ?></strong></td>
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
@@ -177,13 +190,13 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
                             </td>
                             <td>
                                 <div class="table-actions">
-                                    <button onclick="editCategory(id, '<?php echo htmlspecialchars($row['name'], ENT_QUOTES); ?>')" class="btn btn-secondary btn-sm">
+                                    <button onclick="editCategory(<?php echo $row['id']; ?>, '<?php echo htmlspecialchars($row['name'], ENT_QUOTES); ?>')" class="btn btn-secondary btn-sm">
                                         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
                                         Edit
                                     </button>
-                                    <button onclick="deleteCategory(id, '<?php echo htmlspecialchars($row['name'], ENT_QUOTES); ?>')" class="btn btn-danger btn-sm">
+                                    <button onclick="deleteCategory(<?php echo $row['id']; ?>, '<?php echo htmlspecialchars($row['name'], ENT_QUOTES); ?>')" class="btn btn-danger btn-sm">
                                         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
@@ -233,7 +246,7 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
     <script>
         // Mobile menu toggle
         function toggleSidebar(event) {
-            event.stopPropagation(); // Prevent event from bubbling up
+            event.stopPropagation();
             const sidebar = document.querySelector('.sidebar');
             if (sidebar) {
                 sidebar.classList.toggle('active');
@@ -265,7 +278,7 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
         }
 
         function deleteCategory(id, name) {
-            if (confirm('Are you sure you want to delete "' + name + '"?')) {
+            if (confirm('Are you sure you want to delete "' + name + '" and all related products?')) {
                 window.location.href = '?delete=' + id;
             }
         }
@@ -292,6 +305,7 @@ $categories = $conn->query("SELECT c.*, COUNT(p.id) as product_count FROM catego
                 closeModal();
             }
         }
+
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(event) {
             const sidebar = document.querySelector('.sidebar');
