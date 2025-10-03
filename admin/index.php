@@ -101,17 +101,6 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
                 <div class="stat-value"><?php echo $total_categories; ?></div>
                 <div class="stat-change">↗ Product groups</div>
             </div>
-            
-            <div class="stat-card warning">
-                <div class="stat-label">Total Value</div>
-                <div class="stat-value">
-                    $<?php 
-                        $total_value = $conn->query("SELECT SUM(price) as total FROM products")->fetch_assoc()['total'];
-                        echo number_format($total_value ?? 0, 2);
-                    ?>
-                </div>
-                <div class="stat-change">Inventory worth</div>
-            </div>
         </div>
 
         <!-- Recent Products -->
@@ -128,7 +117,6 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
                         <tr>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>Price</th>
                             <th>Category</th>
                             <th>Actions</th>
                         </tr>
@@ -146,7 +134,6 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
                                 <?php endif; ?>
                             </td>
                             <td><strong><?php echo htmlspecialchars($product['name']); ?></strong></td>
-                            <td>$<?php echo number_format($product['price'], 2); ?></td>
                             <td><span class="badge badge-primary"><?php echo htmlspecialchars($cat['name']); ?></span></td>
                             <td>
                                 <div class="table-actions">
@@ -212,6 +199,4 @@ $recent_products = $conn->query("SELECT * FROM products ORDER BY id DESC LIMIT 5
         
     </script>
 </body>
-
 </html>
-
