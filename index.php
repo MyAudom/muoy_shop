@@ -283,7 +283,7 @@ $categories_query = $conn->query("SELECT * FROM categories");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/styles.js"></script>
+    <script src="js/stylesjs.js"></script>
      <script>
 document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.navbar-nav.category-scroll');
