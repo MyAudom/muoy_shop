@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_username'] = $row['username']; // Corrected from $user to $row
+                $_SESSION['admin_username'] = $row['username'];
                 header("Location: admin/index.php");
                 exit();
             } else {
@@ -40,6 +40,7 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Login</title>
     <link href="styles.css" rel="stylesheet">
     <style>
@@ -56,45 +57,45 @@ $conn->close();
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 2vw;
         }
 
         .login-container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 5vw;
+            border-radius: 2vw;
+            box-shadow: 0 2vw 6vw rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 420px;
-            backdrop-filter: blur(10px);
+            max-width: 90vw;
+            backdrop-filter: blur(1vw);
         }
 
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 3vw;
         }
 
         .login-header h2 {
             color: #333;
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 6vw;
+            margin-bottom: 1.5vw;
         }
 
         .login-header p {
             color: #666;
-            font-size: 14px;
+            font-size: 3.5vw;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 3.5vw;
         }
 
         .form-group label {
             display: block;
             color: #333;
             font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 1.2vw;
+            font-size: 3.5vw;
         }
 
         .input-wrapper {
@@ -103,10 +104,10 @@ $conn->close();
 
         .input-wrapper input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 15px;
+            padding: 2.5vw 3vw;
+            border: 0.4vw solid #e1e8ed;
+            border-radius: 2vw;
+            font-size: 3.5vw;
             transition: all 0.3s ease;
             background: #f8f9fa;
         }
@@ -115,26 +116,26 @@ $conn->close();
             outline: none;
             border-color: #667eea;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 0.6vw rgba(102, 126, 234, 0.1);
         }
 
         .btn-login {
             width: 100%;
-            padding: 14px;
+            padding: 2.5vw;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 2vw;
+            font-size: 4vw;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            margin-top: 10px;
+            margin-top: 1.5vw;
         }
 
         .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-0.4vw);
+            box-shadow: 0 2vw 5vw rgba(102, 126, 234, 0.3);
         }
 
         .btn-login:active {
@@ -143,13 +144,13 @@ $conn->close();
 
         .back-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 3vw;
         }
 
         .back-link a {
             color: #667eea;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 3.5vw;
             font-weight: 500;
             transition: color 0.3s ease;
         }
@@ -162,20 +163,51 @@ $conn->close();
         .error-message {
             background: #fee;
             color: #c33;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #c33;
+            padding: 2.5vw;
+            border-radius: 1.5vw;
+            margin-bottom: 3vw;
+            font-size: 3.5vw;
+            border-left: 0.8vw solid #c33;
         }
 
         @media (max-width: 480px) {
             .login-container {
-                padding: 30px 20px;
+                padding: 6vw 4vw;
+                max-width: 95vw;
             }
 
             .login-header h2 {
-                font-size: 24px;
+                font-size: 7vw;
+            }
+
+            .login-header p {
+                font-size: 4vw;
+            }
+
+            .form-group label {
+                font-size: 4vw;
+            }
+
+            .input-wrapper input {
+                padding: 3vw 3.5vw;
+                font-size: 4vw;
+                border-radius: 1.5vw;
+            }
+
+            .btn-login {
+                padding: 3vw;
+                font-size: 4.5vw;
+                border-radius: 1.5vw;
+            }
+
+            .back-link a {
+                font-size: 4vw;
+            }
+
+            .error-message {
+                font-size: 4vw;
+                padding: 3vw;
+                border-radius: 1.2vw;
             }
         }
     </style>
@@ -208,5 +240,6 @@ $conn->close();
             <a href="index.php">← Back to Shop</a>
         </div>
     </div>
+    <script src="js/stylesjs.js"></script>
 </body>
 </html>
