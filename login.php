@@ -42,6 +42,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Login</title>
+    <link rel="icon" type="image/x-icon" href="img/icon.ico" />
     <link href="styles.css" rel="stylesheet">
     <style>
         * {
@@ -275,3 +276,4 @@ $conn->close();
     <script src="js/stylesjs.js"></script>
 </body>
 </html>
+
