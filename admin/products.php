@@ -13,8 +13,8 @@ $error_msg = '';
 if (isset($_POST['add_product'])) {
     $name = $conn->real_escape_string($_POST['name']);
     $description = $conn->real_escape_string($_POST['description']);
-    $price = floatval($_POST['price']);
     $category_id = (int)$_POST['category_id'];
+    $code_item = $conn->real_escape_string($_POST['code']); // Changed to string
     
     $image_path = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -29,8 +29,8 @@ if (isset($_POST['add_product'])) {
             $image_path = "img/" . strtolower(str_replace(' ', '_', $category)) . "/" . basename($image);
         }
     }
-    
-    $sql = "INSERT INTO products (name, description, price, category_id, image) VALUES ('$name', '$description', $price, $category_id, '$image_path')";
+
+    $sql = "INSERT INTO products (name, description, category_id, image, code_item) VALUES ('$name', '$description', $category_id, '$image_path', '$code_item')";
     if ($conn->query($sql)) {
         $success_msg = "Product added successfully!";
     } else {
@@ -43,8 +43,8 @@ if (isset($_POST['update_product'])) {
     $id = (int)$_POST['id'];
     $name = $conn->real_escape_string($_POST['name']);
     $description = $conn->real_escape_string($_POST['description']);
-    $price = floatval($_POST['price']);
     $category_id = (int)$_POST['category_id'];
+    $code_item = $conn->real_escape_string($_POST['code']); // Changed to string
     
     $image_sql = "";
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -66,8 +66,8 @@ if (isset($_POST['update_product'])) {
             }
         }
     }
-    
-    $sql = "UPDATE products SET name='$name', description='$description', price=$price, category_id=$category_id $image_sql WHERE id=$id";
+
+    $sql = "UPDATE products SET name='$name', description='$description', category_id=$category_id, code_item='$code_item' $image_sql WHERE id=$id";
     if ($conn->query($sql)) {
         $success_msg = "Product updated successfully!";
     } else {
@@ -209,7 +209,7 @@ $categories = $conn->query("SELECT * FROM categories");
                             <th>Image</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Price</th>
+                            <th>Code Item</th>
                             <th>Category</th>
                             <th>Actions</th>
                         </tr>
@@ -226,7 +226,7 @@ $categories = $conn->query("SELECT * FROM categories");
                             </td>
                             <td><strong><?php echo htmlspecialchars($row['name']); ?></strong></td>
                             <td><?php echo htmlspecialchars($row['description']); ?></td>
-                            <td>$<?php echo number_format($row['price'], 2); ?></td>
+                            <td><?php echo htmlspecialchars($row['code_item']); ?></td>
                             <td><span class="badge badge-primary"><?php echo htmlspecialchars($row['category']); ?></span></td>
                             <td>
                                 <div class="table-actions">
@@ -284,8 +284,8 @@ $categories = $conn->query("SELECT * FROM categories");
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
-                        <label class="form-label">Price *</label>
-                        <input type="number" name="price" id="productPrice" class="form-input" placeholder="0.00" step="0.01" min="0" required>
+                        <label class="form-label">Code Item *</label>
+                        <input type="text" name="code" id="productCode" class="form-input" placeholder="Enter product code" required>
                     </div>
 
                     <div class="form-group">
@@ -321,7 +321,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <script>
         // Mobile menu toggle
         function toggleSidebar(event) {
-            event.stopPropagation(); // Prevent event from bubbling up
+            event.stopPropagation();
             const sidebar = document.querySelector('.sidebar');
             if (sidebar) {
                 sidebar.classList.toggle('active');
@@ -350,8 +350,8 @@ $categories = $conn->query("SELECT * FROM categories");
             document.getElementById('productId').value = product.id;
             document.getElementById('productName').value = product.name;
             document.getElementById('productDescription').value = product.description;
-            document.getElementById('productPrice').value = product.price;
             document.getElementById('productCategory').value = product.category_id;
+            document.getElementById('productCode').value = product.code_item;
             document.getElementById('submitBtn').name = 'update_product';
             document.getElementById('submitBtn').textContent = 'Update Product';
             
