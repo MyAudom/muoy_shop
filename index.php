@@ -180,7 +180,7 @@ $categories_query = $conn->query("SELECT * FROM categories");
                                 <div class="col-md-6">
                                     <img src="<?php echo $product['image']; ?>" class="img-fluid"/>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-3">
                                     <h5><?php echo $product['name']; ?></h5>
                                     <p><?php echo $product['description']; ?></p>
                                     <h5>Code : <?php echo htmlspecialchars($product['code_item']); ?></h5>
