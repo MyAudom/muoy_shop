@@ -53,12 +53,16 @@ $conn->close();
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            /* add image background */
+            background-image: url('img/doddle.svg');
+            background-size: cover;
+            background-position: center;
         }
 
         .login-container {
@@ -276,4 +280,5 @@ $conn->close();
     <script src="js/stylesjs.js"></script>
 </body>
 </html>
+
 
