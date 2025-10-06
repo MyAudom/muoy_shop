@@ -11,4 +11,4 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s(.*)/index\.php [NC]
 RewriteRule ^ %1 [R=301,L]
 
 # Custom 404 error page
-ErrorDocument 404 https://muoyshop.pxxl.click/404.html
+ErrorDocument 404 https://muoyshop.pxxl.click/404.php
